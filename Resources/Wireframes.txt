@@ -1,0 +1,41 @@
+For now, we only need the navigation structure. Which we have already identified
+
+  - Navigation links on our app
+    - Root level public pages
+      - Home page (/) - DONE!!
+      - About us page (/about)
+      - Services page (/services)
+      - Contact us page (/contact)
+      - Admin page
+        - Show only if logged in, link to the dashboard (/dashboard)
+      - Login (/login)
+      - Order details (/order/{orderHash})
+        - Not to be included on the menu
+
+    - Admin (Login required)
+      - Admin dashboard (/admin)
+
+      - Employees (/admin/employees)  - Done!!
+      - Add employee (/admin/add-employee)  - Done!!
+      - Edit employee (/admin/employee/edit/:id) - Done!!
+      - Customers (/admin/customers) .. Done
+      - Add customer (/admin/add-customer) - Done!!
+      - Edit customer (/admin/customer/edit/:id) - Done!!
+
+      - Services (/admin/services)
+      - Add service (/admin/add-service)
+
+      
+      - Add vehicle (/admin/customer/{customerId}) - Conditionally displayed on the customer details page
+      - Customer details (/admin/customer/{customerId})
+      - Orders (/admin/orders)
+      - Add order (/admin/order)
+      - Edit order (/admin/order/{orderHash}/edit)
+
+
+
+
+employee_token
+
+
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbXBsb3llZV9pZCI6MSwiZW1wbG95ZWVfZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJlbXBsb3llZV9yb2xlIjozLCJlbXBsb3llZV9maXJzdF9uYW1lIjoiQWRtaW4iLCJlbXBsb3llZV9sYXN0X25hbWUiOiJBZG1pbiIsImlhdCI6MTczMDI5MDQ2MiwiZXhwIjoxNzMyODgyNDYyfQ.SgoennrgbMYuaaluTx1NYBEWEX7hPHLKtCdW2CgJREA"
