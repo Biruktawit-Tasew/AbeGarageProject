@@ -4,7 +4,7 @@ import React from "react";
 import { Routes, Route } from "react-router";
 // Import the page components
 import Home from "./markup/pages/Home";
-// import Login from "./markup/pages/Login";
+import Login from "./markup/pages/Login";
 // import AddEmployee from "./markup/pages/admin/AddEmployee";
 // import Unauthorized from "./markup/pages/Unauthorized";
 // // Import the Orders and Customers components
@@ -23,9 +23,9 @@ import "./assets/template_assets/css/color.css";
 import "./assets/styles/custom.css";
 
 // // Import the Header component
-// import Header from "./markup/components/Header/Header";
+import Header from "./markup/components/Header/Header";
 // // Import the Footer component
-// import Footer from "./markup/components/Footer/Footer";
+import Footer from "./markup/components/Footer/Footer";
 
 // // Import the PrivateAuthRoute component
 // import PrivateAuthRoute from "./markup/components/Auth/PrivateAuthRoute";
@@ -33,11 +33,11 @@ import "./assets/styles/custom.css";
 function App() {
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/login" element={<Login />} />
-        <Route path="/unauthorized" element={<Unauthorized />} /> */}
+        <Route path="/login" element={<Login />} />
+        {/* <Route path="/unauthorized" element={<Unauthorized />} /> */}
         {/* // Add the Orders Route  */}
         {/* <Route
           path="/admin/orders"
@@ -75,7 +75,7 @@ function App() {
             - Employee: 1 
         */}
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }
