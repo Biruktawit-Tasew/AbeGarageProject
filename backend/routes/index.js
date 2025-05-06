@@ -6,11 +6,17 @@ const router = express.Router();
 const installRouter = require("./install.routes");
 // Import the employee routes
 
+// Import the vechile routes
+const vehicleRoutes = require("./vehicle.routes");
+
 // Import the login routes
 
 // Add the install router to the main router
 router.use(installRouter);
 // Add the employee routes to the main router
+
+// Add the vehicle routes to the main router
+router.use(vehicleRoutes);
 
 // Add the login routes to the main router
 
