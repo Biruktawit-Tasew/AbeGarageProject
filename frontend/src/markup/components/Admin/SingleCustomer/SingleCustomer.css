@@ -1,0 +1,76 @@
+.single-customer {
+  background-color: #f7f8fc;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  display: flex;
+  padding: 20px;
+}
+.sidebar {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sidebar .circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  font-weight: bold;
+  font-size: 18px;
+}
+.sidebar .line {
+  width: 2px;
+  background-color: #ccc;
+  flex-grow: 1;
+}
+.content {
+  flex-grow: 1;
+  padding-left: 40px;
+}
+.content h2 {
+  font-weight: 800;
+  color: #002060;
+  margin-top: 0;
+}
+.info,
+.vehicles,
+.orders {
+  margin-bottom: 30px;
+}
+.label {
+  font-weight: bold !important;
+  padding-left: 15px;
+}
+.edit-icon {
+  color: red !important;
+  font-size: 14px;
+  cursor: pointer;
+}
+.vehicle-box,
+.order-box {
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  margin-top: 10px;
+}
+.add-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.placeholder {
+  color: gray;
+}
