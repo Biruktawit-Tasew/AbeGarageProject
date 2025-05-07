@@ -1,23 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import loginService from "../../../services/login.service";
+import loginEmployee from "../../../services/login.service";
+import { BeatLoader } from "react-spinners";
 
-function LoginForm() {
-  const navigate = useNavigate();
+function LoginForm(props) {
+  // const navigate = useNavigate();
   const location = useLocation();
   const [employee_email, setEmail] = useState("");
   const [employee_password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [serverError, setServerError] = useState("");
+  const [serverMsg, setServerMsg] = useState("");
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  // spinner handler state
+  const [spin, setSpinner] = useState(false);
+
+  // tracQer
+  const emailDom = useRef();
+  const passwordDom = useRef();
+
+  // console.log(employee_password);
+
+  // email value tracker
+  function emailTracker() {
+    setEmail(emailDom.current.value);
+  }
+
+  // password value tracker
+  function passwordTracker() {
+    setPassword(passwordDom.current.value);
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
     // Handle client side validations here
     let valid = true; // Flag
-    // Email validation
+
+    // Email is Required
     if (!employee_email) {
-      setEmailError("Please enter your email address first");
+      setEmailError("Please enter your email address");
       valid = false;
     } else if (!employee_email.includes("@")) {
       setEmailError("Invalid email format");
@@ -30,56 +53,65 @@ function LoginForm() {
         setEmailError("");
       }
     }
+
     // Password has to be at least 6 characters long
     if (!employee_password || employee_password.length < 6) {
       setPasswordError("Password must be at least 6 characters long");
+      setTimeout(() => {
+        setPasswordError("");
+      }, 2000);
       valid = false;
     } else {
       setPasswordError("");
     }
+
     if (!valid) {
       return;
     }
-    // Handle form submission here
+
+    // Handle server side validations here
     const formData = {
       employee_email,
       employee_password,
     };
-    console.log(formData);
-    // Call the service
-    const loginEmployee = loginService.logIn(formData);
-    console.log(loginEmployee);
-    loginEmployee
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-        if (response.status === "success") {
-          // Save the user in the local storage
-          if (response.data.employee_token) {
-            console.log(response.data);
-            localStorage.setItem("employee", JSON.stringify(response.data));
-          }
-          // Redirect the user to the dashboard
-          // navigate('/admin');
-          console.log(location);
-          if (location.pathname === "/login") {
-            // navigate('/admin');
-            // window.location.replace('/admin');
-            // To home for now
-            window.location.replace("/");
-          } else {
-            window.location.reload();
-          }
-        } else {
-          // Show an error message
-          setServerError(response.message);
+console.log(formData);
+    try {
+      const { data } = await loginEmployee(formData);
+      console.log(data);
+
+       console.log(data.message);
+
+      setSpinner(!spin);
+
+      // Save the employee token in the local storage
+      if (data?.status === "success") {
+        if (data?.data?.employee_token) {
+          localStorage.setItem("employee", JSON.stringify(data?.data));
         }
-      })
-      .catch((err) => {
-        console.log(err);
-        setServerError("An error has occurred. Please try again later." + err);
-      });
-  };
+
+        if (data?.message) {
+          setServerMsg(data?.message + "! Redirecting Page");
+
+          setTimeout(() => {
+            setServerMsg("");
+            setSpinner(!spin);
+            if (location.pathname === "/login") {
+              window.location.replace("/admin");
+            } else {
+              window.location.reload();
+            }
+          }, 2000);
+        }
+        console.log(serverMsg)
+      }
+    } catch (error) {
+      console.log(error?.response?.data);
+      setServerError(error?.response?.data?.message);
+      setTimeout(() => {
+        setServerError("");
+      }, 2000);
+    }
+  }
 
   return (
     <section className="contact-section">
@@ -93,6 +125,8 @@ function LoginForm() {
               <div className="contact-form">
                 <form onSubmit={handleSubmit}>
                   <div className="row clearfix">
+                    {/* Email */}
+
                     <div className="form-group col-md-12">
                       {serverError && (
                         <div className="validation-error" role="alert">
@@ -102,9 +136,11 @@ function LoginForm() {
                       <input
                         type="email"
                         name="employee_email"
-                        value={employee_email}
-                        onChange={(event) => setEmail(event.target.value)}
                         placeholder="Email"
+                        value={employee_email}
+                        ref={emailDom}
+                        onChange={emailTracker}
+                        required
                       />
                       {emailError && (
                         <div className="validation-error" role="alert">
@@ -113,13 +149,16 @@ function LoginForm() {
                       )}
                     </div>
 
+                    {/* Password */}
                     <div className="form-group col-md-12">
                       <input
                         type="password"
                         name="employee_password"
-                        value={employee_password}
-                        onChange={(event) => setPassword(event.target.value)}
                         placeholder="Password"
+                        value={employee_password}
+                        ref={passwordDom}
+                        onChange={passwordTracker}
+                        required
                       />
                       {passwordError && (
                         <div className="validation-error" role="alert">
@@ -128,14 +167,34 @@ function LoginForm() {
                       )}
                     </div>
 
+                    {/* Button */}
                     <div className="form-group col-md-12">
                       <button
                         className="theme-btn btn-style-one"
                         type="submit"
-                        data-loading-text="Please wait..."
-                      >
-                        <span>Login</span>
+                        data-loading-text="Please wait...">
+                        <span>
+                          {" "}
+                          {spin ? (
+                            <BeatLoader color="white" size={8} />
+                          ) : (
+                            "Login"
+                          )}
+                        </span>
                       </button>
+                      {serverMsg && (
+                        <div
+                          className="validation-error"
+                          style={{
+                            color: "green",
+                            fontSize: "100%",
+                            fontWeight: "600",
+                            padding: "25px",
+                          }}
+                          role="alert">
+                          {/* {serverMsg} */}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </form>

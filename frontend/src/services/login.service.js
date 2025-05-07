@@ -1,5 +1,5 @@
-const api_url = import.meta.env.VITE_API_URL;
-
+//const api_url = import.meta.env.VITE_API_URL;
+const api_url = "http://localhost:8000"
 // A function to send the login request to the server
 const logIn = async (formData) => {
   const requestOptions = {

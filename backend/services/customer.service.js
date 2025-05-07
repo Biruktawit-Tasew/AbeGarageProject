@@ -1,7 +1,7 @@
 // Import the query function from the db.config.js file
 const conn = require("../config/db.config");
-// Import the bcrypt module
-const bcrypt = require("bcrypt");
+// Import the bcryptjs module
+const bcryptjs = require("bcryptjs");
 //import uuid from the uuid module
 const { v4: uuidv4 } = require("uuid");
 
