@@ -1,4 +1,4 @@
-const api_url = "http://localhost:2026";
+const api_url = "http://localhost:8000";
 
 async function createCustomer(formData) {
   console.log(formData);
