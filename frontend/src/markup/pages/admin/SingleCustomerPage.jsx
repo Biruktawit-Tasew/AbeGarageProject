@@ -1,8 +1,8 @@
 import React from "react";
-import CustomerTable from "../../components/Admin/Customer/CustomerTable";
-// import EditCustomer from "../../components/Admin/EditCustomer/EditCustomer";
+import SingleCustomer from "../../components/SingleCustomer/SingleCustomer";
 import AdminMenu from "../../components/Admin/AdminMenu/AdminMenu";
-const Customers = () => {
+
+function SingleCustomerPage() {
   return (
     <div>
       <div className="container-fluid admin-pages">
@@ -11,8 +11,7 @@ const Customers = () => {
             <AdminMenu />
           </div>
           <div className="col-md-9 admin-right-side">
-            <CustomerTable />
-           
+            <SingleCustomer />
           </div>
         </div>
       </div>
@@ -20,4 +19,4 @@ const Customers = () => {
   );
 }
 
-export default Customers; 
+export default SingleCustomerPage;
