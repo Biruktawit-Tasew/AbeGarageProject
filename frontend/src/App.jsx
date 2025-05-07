@@ -10,7 +10,9 @@ import UpdateEmployee from "./markup/pages/admin/UpdateEmployee";
 import Unauthorized from "./markup/pages/Unauthorized";
 // // Import the Orders and Customers components
 // import Orders from "./markup/pages/admin/Orders";
-// import Customers from "./markup/pages/admin/Customers";
+import Customers from "./markup/pages/admin/Customers";
+import AddCustomer from "./markup/pages/admin/AddCustomer";
+import EditCustomer from "./markup/pages/admin/EditCustomer"
 // // Import the Employees component
 import Employees from "./markup/pages/admin/Employees";
 
@@ -81,13 +83,13 @@ function App() {
         <Route
           path="/admin/add-employee"
           element={
-            <PrivateAuthRoute roles={[3]}>
+            // <PrivateAuthRoute roles={[3]}>
               <AddEmployee />
-            </PrivateAuthRoute>
+            // </PrivateAuthRoute>
           }
         />
         <Route path="/admin/employee/edit/:id" element={<UpdateEmployee />} />
-        {/* 
+{/*         
           Customers (/admin/customers) - managers and admins
           Orders (/admin/orders) - Can be accessed by all employees
           Add employee (/admin/add-employee) - admins only 

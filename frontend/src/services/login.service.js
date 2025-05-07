@@ -1,31 +1,21 @@
+const api_url = import.meta.env.VITE_API_URL;
+
+// A function to send the login request to the server
 const logIn = async (formData) => {
-  try {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    };
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData),
+  };
+  console.log("About to send request");
+  console.log(requestOptions.body);
+  const response = await fetch(`${api_url}/api/employee/login`, requestOptions);
+  return response;
+};
 
-    console.log("Request payload:", requestOptions.body);
-
-    const response = await fetch(
-      `${api_url}/api/employee/login`,
-      requestOptions
-    );
-
-    // Check if response is OK (status 200-299)
-    if (!response.ok) {
-      const errorData = await response.text(); // Try to read response as text
-      throw new Error(
-        `Server responded with status ${response.status}: ${errorData}`
-      );
-    }
-
-    return await response.json(); // Parse JSON here instead of in component
-  } catch (error) {
-    console.error("Login failed:", error);
-    throw error; // Re-throw to let component handle it
-  }
+// A function to log out the user
+const logOut = () => {
+  localStorage.removeItem("employee");
 };
 
 const loginService = {
