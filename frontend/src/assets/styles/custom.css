@@ -178,7 +178,27 @@ input:disabled {
   font-size: 1.5em;
   font-weight: 600;
 }
-
+.ServiceForm{
+  background-color: white;
+   padding: 2rem 8rem 3rem 1.5rem;
+}
+.sec-title .ServiceForm-title{
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+.ServiceTable{
+  background-color: white;
+  padding-block: 0.4rem;
+  margin-bottom: 1rem;;
+}
+.ServiceTableName{
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.ServiceTableDescription{
+  font-size: 0.9rem;
+  color: #000;
+}
 /* Order page */
 .faq-section.order-page .sear-form {
   position: relative;
