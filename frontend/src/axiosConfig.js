@@ -2,11 +2,11 @@
 import axios from "axios";
 
 // import api url from Z env
-const ApiUrl = import.meta.env.VITE_APP_API_URL;
+const ApiUrl = import.meta.env.VITE_API_URL;
 
 // create Z axios baseUrl
 const axiosBase = axios.create({
-  baseURL: `${ApiUrl}`,
+	baseURL: `${ApiUrl}`,
 });
 
 // export Z axios baseUrl
