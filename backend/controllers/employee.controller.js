@@ -1,62 +1,71 @@
-// import the employee service
+// Import the employee service
 const employeeService = require("../services/employee.service");
-
-// create Employee controller
+// Create the add employee controller
 async function createEmployee(req, res, next) {
-  const { employee_email } = req.body;
-
   // console.log(req.headers);
 
+  // Check if employee email already exists in the database
   const employeeExists = await employeeService.checkIfEmployeeExists(
-    employee_email
+    req.body.employee_email
   );
-
-  // if employee exists, send a response to a client
+  // If employee exists, send a response to the client
   if (employeeExists) {
-    return res.status(400).json({
-      msg: "This email address is already associated with  another employee!",
+    res.status(400).json({
+      error: "This email address is already associated with another employee!",
     });
   } else {
     try {
       const employeeData = req.body;
-
-      // create the employee
-      const employee = await employeeService.createEmploye(employeeData);
-
-      // console.log(employee);
-
+      // Create the employee
+      const employee = await employeeService.createEmployee(employeeData);
       if (!employee) {
-        return res.status(400).json({
+        res.status(400).json({
           error: "Failed to add the employee!",
         });
       } else {
-        return res.status(200).json({
-          status: "Employee added successfully! ",
+        res.status(200).json({
+          status: "true",
         });
       }
     } catch (error) {
-      console.log(error);
-      return res.status(400).json({
+      console.log(err);
+      res.status(400).json({
         error: "Something went wrong!",
       });
     }
   }
 }
+// Create the getAllEmployees controller
+async function getAllEmployees(req, res, next) {
+  // Call the getAllEmployees method from the employee service
+  const employees = await employeeService.getAllEmployees();
+  // console.log(employees);
+  if (!employees) {
+    res.status(400).json({
+      error: "Failed to get all employees!",
+    });
+  } else {
+    res.status(200).json({
+      status: "success",
+      data: employees,
+    });
+  }
+}
 
-// get all Employee data controller
-async function getAllEmployeees(req, res, next) {
+// Create the getSingleEmployee controller
+const getSingleEmployee = async (req, res, next) => {
   try {
-    // call the getAllEmployees methosd from the emplyees service
-    const employees = await employeeService.getAllEmployees();
-
-    if (!employees) {
-      res.status(400).json({
-        error: "Failed to get all employees!",
+    const employeeId = req.params.id;
+    // Call the getSingleEmployee method from the employee service
+    const employee = await employeeService.getSingleEmployee(employeeId);
+    if (!employee) {
+      res.status(404).json({
+        error: "Employee not found!",
       });
     } else {
       res.status(200).json({
-        status: "Employees retrieved successfully! ",
-        employees: employees,
+        status: "success",
+        data: employee,
       });
     }
   } catch (error) {
@@ -65,24 +74,46 @@ async function getAllEmployeees(req, res, next) {
       error: "Something went wrong!",
     });
   }
-}
+};
 
-// get single employee data controller
-async function getSingleEmployee(req, res, next) {
-  const employee_id = req.params.employee_id;
-  console.log(employee_id);
+// Create the updateEmployee controller
+const updateEmployee = async (req, res) => {
   try {
-    const singleEmployee = await employeeService.getSingleEmploye(employee_id);
-    // console.log(singleEmployee);
+    // Debug: log the incoming request body
+    console.log("Incoming update data:", req.body);
 
-    if (!singleEmployee) {
+    // Ensure we're passing the complete req.body
+    const updated = await employeeService.updateEmployee(req.body);
+
+    if (!updated) {
+      return res.status(400).json({
+        error: "No database rows were updated",
+      });
+    }
+
+    res.status(200).json({ status: "Update successful" });
+  } catch (error) {
+    console.error("Update error:", error);
+    res.status(500).json({
+      error: "Database operation failed",
+      details: error.message,
+    });
+  }
+};
+
+// Create the deleteEmployee controller
+const deleteEmployee = async (req, res, next) => {
+  try {
+    const employeeId = req.params.id;
+    // Call the deleteEmployee method from the employee service
+    const deletedEmployee = await employeeService.deleteEmployee(employeeId);
+    if (!deletedEmployee) {
       res.status(400).json({
-        error: "Failed to get employee!",
+        error: "Failed to delete employee!",
       });
     } else {
       res.status(200).json({
-        status: "Employee retrieved successfully! ",
-        singleEmployee: singleEmployee,
+        status: "Employee deleted successfully!",
       });
     }
   } catch (error) {
@@ -91,72 +122,13 @@ async function getSingleEmployee(req, res, next) {
       error: "Something went wrong!",
     });
   }
-}
+};
 
-// update Employee controller
-async function updateEmployee(req, res, next) {
-  try {
-    const updateEmployee = await employeeService.updateEmployee(req.body);
-
-    // console.log(updateEmployee);
-
-    // the returned rows value
-    const rows1 = updateEmployee.rows1.affectedRows;
-    const rows2 = updateEmployee.rows2.affectedRows;
-    const rows3 = updateEmployee.rows3.affectedRows;
-
-    // console.log(rows1)
-    // console.log(rows2)
-    // console.log(rows3)
-
-    if (!updateEmployee) {
-      res.status(400).json({
-        error: "Failed to Update Employee",
-      });
-    } else if (rows1 === 1 && rows2 === 1 && rows3 === 1) {
-      res.status(200).json({
-        status: "Employee Succesfully Updated! ",
-      });
-    } else {
-      res.status(400).json({
-        status: "Update Incomplete!",
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({
-      error: "Something went wrong!",
-    });
-  }
-}
-
-// delete Employee controller
-async function deleteEmployee(req, res, next) {
-  const { employee_id } = req.body;
-  try {
-    const deleteEmployee = await employeeService.deleteEmployee(employee_id);
-
-    if (!deleteEmployee) {
-      res.status(200).json({
-        error: "Delete Incomplete!",
-      });
-    } else {
-      res.status(400).json({
-        status: "Employee Succesfully Delete!",
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({
-      error: "Something went wrong!",
-    });
-  }
-}
-
+// Export the createEmployee controller
 module.exports = {
   createEmployee,
-  getAllEmployeees,
+  getAllEmployees,
+  getSingleEmployee,
   updateEmployee,
   deleteEmployee,
-  getSingleEmployee,
 };

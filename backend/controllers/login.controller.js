@@ -42,7 +42,6 @@ async function logIn(req, res, next) {
   } catch (error) {}
 }
 
-// Export the functions
 module.exports = {
   logIn,
 };

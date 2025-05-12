@@ -2,7 +2,7 @@
 //const api_url = import.meta.env.VITE_API_URL;
 const api_url = "http://localhost:8000"
 // A function to send post request to create a new employee
-import axios from "../axiosConfig";
+import axios from "axios";
 
 // A function to send post request to create a new employee
 async function createEmployee(formData, loggedInEmployeeToken) {
@@ -11,7 +11,7 @@ async function createEmployee(formData, loggedInEmployeeToken) {
     "x-access-token": loggedInEmployeeToken,
   };
 
-  const data = await axios.post("/api/employee", formData, { headers });
+  const data = await axios("http://localhost:8000/api/employee", formData);
 
   return data;
 }

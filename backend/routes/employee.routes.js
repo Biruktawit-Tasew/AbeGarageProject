@@ -1,51 +1,40 @@
-// import the express module
+// import express module
 const express = require("express");
-
-// call the router method from express to create the router
+// create router from express module
 const router = express.Router();
-
-// import the authMiddleware
-const {
-  verifyToken,
-  isAdmin,
-  isAdmin_Manager,
-} = require("../middlewares/auth.middleware");
-
+// Import middleware
+const authMiddleware = require("../middlewares/auth.middleware");
 // import the employee controller
 const employeeController = require("../controllers/employee.controller");
 
-// create a route to handle the employee request in post
-router.post(
-  "/api/employee",
-  [verifyToken, isAdmin],
-  employeeController.createEmployee
-);
+// create a route to handle the add employee request on POST
+router.post("/api/employee", employeeController.createEmployee);
 
-// create a route to handle the get all employee request in get
+// Create a route to handle the get all employees request on GET
 router.get(
   "/api/employees",
-  [verifyToken, isAdmin],
-  employeeController.getAllEmployeees
+  [authMiddleware.verifyToken, authMiddleware.isAdmin],
+  employeeController.getAllEmployees
 );
 
-// create a route to handle the get single employee request in get
+// Create a route to handle the get single employee request on GET
 router.get(
-  "/api/employee/single/:employee_id",
-   [verifyToken, isAdmin],
+  "/api/employee/:id",
+  [authMiddleware.verifyToken, authMiddleware.isAdmin],
   employeeController.getSingleEmployee
 );
 
-// create a route to handle the employee request in put
+// Create a route to handle the update employee request on PUT
 router.put(
-  "/api/employee/update",
-   [verifyToken, isAdmin],
+  "/api/employee",
+  [authMiddleware.verifyToken, authMiddleware.isAdmin],
   employeeController.updateEmployee
 );
 
-// create a route to handle the employee request in delete
+// Create a route to handle the delete employee request on DELETE
 router.delete(
-  "/api/employee/delete",
-  // [verifyToken, isAdmin],
+  "/api/employee/:id",
+  [authMiddleware.verifyToken, authMiddleware.isAdmin],
   employeeController.deleteEmployee
 );
 
