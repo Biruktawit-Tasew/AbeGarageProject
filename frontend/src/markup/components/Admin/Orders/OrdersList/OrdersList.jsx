@@ -10,7 +10,7 @@ import { FaEdit } from "react-icons/fa";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
 // import the auth hook
-import { useAuth } from "../../../../../Context/AuthContext";
+import { useAuth } from "../../../../../Contexts/AuthContext";
 
 // import the employee service to use the get employees function
 import orderService from "../../../../../services/order.services";
@@ -127,14 +127,14 @@ function OrdersList() {
 
                     <td>
                       <div>
-                        {" "}
+                    
                         {order.customer_first_name +
                           " " +
                           order.customer_last_name}
                       </div>
                       <div className="list-email"> {order.customer_email}</div>
                       <div className="list-email">
-                        {" "}
+                       
                         {order.customer_phone_number}
                       </div>
                     </td>
@@ -151,7 +151,7 @@ function OrdersList() {
 
                     <td>
                       <div className="order-date">
-                        {" "}
+                  
                         {order.employee_first_name +
                           " " +
                           order.employee_last_name}

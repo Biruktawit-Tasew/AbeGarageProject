@@ -1,7 +1,7 @@
 import React from "react";
 
 // import the auth hook context
-import { useAuth } from "../../../../Context/AuthContext";
+import { useAuth } from "../../../../Contexts/AuthContext";
 
 // import the login component
 import LoginForm from "../../../components/LoginForm/LoginForm";

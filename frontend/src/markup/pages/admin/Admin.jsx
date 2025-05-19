@@ -1,10 +1,10 @@
 import React from "react";
 // Import the AddEmployeeForm component
-import adminDashboard from "../../components/Admin/adminDashboard/adminDashboard";
+import AdminDashboard from "../../components/Admin/AdminDashboard/AdminDashboard";
 // Import the AdminMenu component
 import AdminMenu from "../../components/Admin/AdminMenu/AdminMenu";
 
-const AddEmployee = () => {
+const Admin = () => {
   return (
     <div>
       <div className="container-fluid admin-pages">
@@ -13,7 +13,7 @@ const AddEmployee = () => {
             <AdminMenu />
           </div>
           <div className="col-md-9 admin-right-side">
-            <adminDashboard />
+            <AdminDashboard />
           </div>
         </div>
       </div>
@@ -21,4 +21,4 @@ const AddEmployee = () => {
   );
 };
 
-export default AddEmployee;
+export default Admin;
